@@ -102,7 +102,6 @@ ser.write("/put/memory?address=94&value=0x40&\r".encode())
 time.sleep(5)
 ser.write("/put/memory?address=95&value=0x40&\r".encode())
 time.sleep(5)
-# _______________________________________________________
 ser.write("/put/memory?address=39&value=214&\r".encode())
 time.sleep(5)
 ser.write("/put/memory?address=40&value=194&\r".encode())
