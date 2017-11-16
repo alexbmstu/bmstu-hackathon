@@ -100,9 +100,11 @@ $ host10
 ## Установка и запуск VNC сервера <a name="45"></a>
 
 Для установки VNC сервера необходимо выполнить команды:
-```$ apt-get install tightvncserver```
+```$ apt-get install tightvncserver
+```
 При инсталляции установить пароль для подключения к серверу: raspberry.
-```$ vncserver :1 -geometry 1280x1024 -depth 24```
+```$ vncserver :1 -geometry 1280x1024 -depth 24
+```
 Проверить работоспособность сервера, подключившись к RPi с персонального компьютера. Для этого в операционной системе Windows использовать прграмму tightvncclient: [Клиенты](http://sourceforge.net/projects/vnc-tight/files/latest/download)
 
 Для операционной системы Linux можно использовать приложение xtightvncviewer.
