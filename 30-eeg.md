@@ -237,3 +237,22 @@ if state == 1:
 
 ``` 
 
+Выполним тестирование примера:
+-	Войдите в raspberry через консоль `ssh`.
+-	`cd ./hackathon`
+-	`mkdir stage1`
+-	`cd stage1`
+-	`wget https://github.com/alexbmstu/bmstu-hackathon/raw/master/src/stage1/stage1.zip`
+-	`unzip stage1.zip`
+-	`python hackathon.py`
+
+
+ПРоверьте работоспособность Вашего кода для state=0 и для state=1 (на приборе). 
+
+
+
+
+
+
+
+
