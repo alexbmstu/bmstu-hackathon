@@ -211,7 +211,7 @@ def importNetwork (name):
     name - имя файла, строка
 
     """
-    return NetworkReader.readFrom(name)
+    return NetworkReader.readFrom(name)    
 	
 # Сохранить сеть
 saveNetwork(n, 'net.xml')
