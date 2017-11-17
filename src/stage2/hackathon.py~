@@ -15,12 +15,7 @@ from pybrain.structure import FullConnection
 from pybrain.datasets import SupervisedDataSet
 from pybrain.supervised.trainers import BackpropTrainer
 
-
-### ИМПОРТы для работы ВЕБСОКЕТОВ #####################
-
-from websocket import *
 from threading import Thread
-
 
 # глобальные переменные
 root = Tk.Tk()
@@ -48,58 +43,6 @@ state = 0 	#Данные поступают из файла datafile
 
 if state == 1:
 	ser = serial.Serial("/dev/ttyUSB0")
-
-
-# Сокеты
-
-ws = 0
-pack_to_serv = []
-
-def on_message(ws, message):
-    # получаем состояние от сервера
-    global FSM_state
-    if message == "__FIRST__":
-        FSM_state = 0
-    elif message == "__SECOND__":
-        FSM_state = 1
-    #print(message)
-
-
-def on_error(ws, error):
-    print(error)
-
-
-def on_close(ws):
-    print("### closed ###")
-
-
-def on_open(ws):
-    global FSM_state
-    modes = ["FIRST", "SECOND", "err_mode_type"]
-
-    def run(*args):
-        global pack_to_serv
-        while True:
-            # каждые 2000ms
-            time.sleep(2)
-            mode_neuro = modes[FSM_state]
-            s = ""
-	    for i in range(0, len(pack_to_serv)):
-                s = s + str(pack_to_serv[i]) + " "
-            ws.send(mode_neuro)
-            ws.send(s)
-            pack_to_serv = []
-        time.sleep(1)
-        ws.close()
-        print("thread terminating...")
-
-#Инициализация Socket
-def connection():
-   enableTrace(True)
-   ws = WebSocketApp("ws://node-ws-server-neuro.eu-gb.mybluemix.net/", on_message = on_message, on_error = on_error, on_close = on_close)
-   ws.on_open = on_open
-   ws.run_forever()
-   return
 
 
 # преобразование данных
@@ -230,7 +173,6 @@ def buf_read(count):
 	global ref
 	res = ""
 	for i in range(count):
-		#res.append(buf[ref]);
 		res+=buf[ref];		
 		ref = (ref+1)%len(buf)
 		time.sleep(0.000001)
@@ -260,6 +202,12 @@ def receive_data_from_eeg():
 
 	#wait 100 ms	
 	time.sleep(0.1)
+
+	#Clear all buffers
+	if state:
+	    ser.flushInput()
+	    ser.flushOutput()
+
 	begin_time = time.time()
   	buffer_lst = []
 	learnData=[]
@@ -390,10 +338,6 @@ def trainNetwork (net, trainData):
       # Запускаем трейнер на 1 эпоху и запоминаем оценку ошибки 
     coef = trainer.train()
     return (net, coef)
-
-
-
-
 
 # Обработка после кноки start
 def lets_start(): 
@@ -624,9 +568,7 @@ def go():
 
 
 
-#Стартуем сокет
-t = Thread(target=connection)
-t.start()
+#Стартуем приложение
 m = Thread(target=lets_start)
 m.start()
 
