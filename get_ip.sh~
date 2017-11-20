@@ -1,4 +1,4 @@
 #!/bin/bash
 
-echo '#IP адреса <a name="7"></a>' > 99-ip.md
+echo '# 6. IP адреса <a name="4"></a>' > 99-ip.md
 sudo nmap -sN 192.168.10.0/24 -p 22 >> 99-ip.md
